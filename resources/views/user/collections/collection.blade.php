@@ -16,7 +16,7 @@
                 <a href="{{route('show_product_with_category',$item->slug)}}">
                     <img src="{{url('/')}}/public/assets/img/product/ice-grape.webp" alt="" class="product__img">
                     <h3 class="category__name text-color text-center">{{$item->name}}</h3>
-                    <p class="product__count text-color text-center">0 sản phẩm</p>
+                    <p class="product__count text-color text-center">{{$item->product_count}} sản phẩm</p>
                 </a>
             </div>
             @endforeach
@@ -25,7 +25,7 @@
                 <a href="{{route('show_product_with_category',$item->slug)}}">
                     <img src="{{url('/')}}/public/assets/img/product/ice-grape.webp" alt="" class="product__img">
                     <h3 class="category__name text-color text-center">{{$item->name}}</h3>
-                    <p class="product__count text-color text-center">0 sản phẩm</p>
+                    <p class="product__count text-color text-center">{{$item->product_count}} sản phẩm</p>
                 </a>
             </div>
             @endforeach
