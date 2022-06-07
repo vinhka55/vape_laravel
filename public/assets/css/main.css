@@ -483,6 +483,8 @@
 /* chi tiết sản phẩm  */
 .information-product{
     display: flex;
+    border-bottom: 1px solid black;
+    padding-bottom: 16px;
 }
 .information-product .image-product{
     width: 35%;

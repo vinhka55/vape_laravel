@@ -88,11 +88,10 @@
         margin: 0 12px;
     }
     .top-search .input-search{
-        padding: 8px 12px;
+        padding: 10px 12px;
     }
     .top-search .btn-top-search{
-        padding-top: 3px;
-        padding-bottom: 6px;
+        padding: 0px 12px 6px 12px;
     }
     
     /* category */
@@ -217,7 +216,7 @@
         width: 70%;
     }
     .content-top__end {
-        margin-top: 15px;
+        margin-top: 24px;
         padding: 0 38px;
     }
     /* slide  */

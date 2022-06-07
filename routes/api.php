@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+//comment
+Route::post('/comment','App\Http\Controllers\CommentController@add')->name('api.add_comment');
+Route::get('/comment/{idProduct}','App\Http\Controllers\CommentController@show')->name('api.show_comment');
+Route::delete('/comment/{idProduct}','App\Http\Controllers\CommentController@delete')->name('api.delete_comment');
+

@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="grid mt-4">
-        <div class="information-product">
+        <div class="information-product"> 
             <div class="image-product">
                 <img src="{{url('')}}/public/images/products/{{$product->image}}" alt="{{$product->name}}">
             </div>
@@ -32,4 +32,72 @@
             </div>
         </div>
     </div>
+    <div class="comment-product p-8">
+        <div class="comment-product__header text-center">
+            <h3>BẠN CÓ THẮC MẮC VỀ SẢN PHẨM NÀY?</h3>
+            <p>Đừng lo, bình luận không ảnh hưởng tới thông tin của bạn.</p>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-8 col-lg-6">
+              <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+                <div class="card-body p-4">
+                    @if (Auth::check())
+                        <form class="form-outline mb-4" id="form-comment">
+                            @csrf
+                            <input type="text" id="addANote" name="content" class="form-control" placeholder="Bình luận của bạn ...."/>
+                            <input type="hidden" id="productId" name="product_id" value="{{$product->id}}">
+                            <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                            <button type="submit" class="btn btn-primary mt-2" id="btnAddComment">Gửi</button>
+                        </form>                 
+                    @else
+                        <input type="hidden" id="productId" name="product_id" value="{{$product->id}}">
+                        <p class="text-center notify-error"><a href="{{route('login')}}">Đăng nhập</a> để bình luận</p>
+                    @endif               
+                        
+                    <div id="show-comment">
+                        
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var apiUrl = window.location.origin+'/vape/api/comment';
+        var idProduct = $('#productId').val()
+        function renderComment(){
+            $.get(apiUrl+'/'+idProduct,function(res){
+                let comment = ''
+                for(let item in res){
+                    comment += `
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <p><span style="font-size:1.3rem;">${res[item].user.name}</span> ${res[item].time}</p>
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex flex-row align-items-center">
+                                    <p class="small mb-0" style="font-size:1.5rem;">${res[item].content}</p>
+                                </div>
+                                <div class="d-flex flex-row align-items-center">
+                                    <i class="far fa-thumbs-up mx-2 text-black" style="margin-top: -0.16rem;cursor: pointer;"></i>
+                                    <p class=" text-muted mb-0">${res[item].like}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `
+                }
+                var showCommet = document.getElementById('show-comment')
+                showCommet.innerHTML = comment
+            })
+        }
+        renderComment()
+        $('#form-comment').on('submit',function(e){
+            e.preventDefault()
+            var data = $('#form-comment').serialize()
+            $.post(apiUrl,data,function(res){
+                $('#addANote').val('')
+                renderComment()
+            })
+        })
+    </script>
 @stop

@@ -62,6 +62,7 @@ class CartController extends Controller
     }
     public function countItemCart()
     {
+        if(!Session::get('cart')) return 0;
         $itemCart = count(Session::get('cart'));
         return $itemCart;
     }
