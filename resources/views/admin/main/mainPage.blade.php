@@ -83,7 +83,7 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="index.html" class="app-brand-link">
+            <a href="{{route('dashboard')}}" class="app-brand-link">
               <span class="app-brand-logo demo">
                 <svg
                   width="25"
@@ -139,7 +139,7 @@
                   </g>
                 </svg>
               </span>
-              <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span>
+              <span class="app-brand-text demo menu-text fw-bolder ms-2">Vape VN</span>
             </a>
 
             <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -151,8 +151,8 @@
 
           <ul class="menu-inner py-1">
             <!-- Dashboard -->
-            <li class="menu-item active">
-              <a href="#" class="menu-link">
+            <li class="menu-item">
+              <a href="{{route('dashboard')}}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Dashboard</div>
               </a>
@@ -233,6 +233,11 @@
                   
                 </ul>
               </li>
+              <li class="menu-item">
+                <a href="{{route('adminLogout')}}" class="menu-link">
+                  <div>Logout</div>
+                </a>            
+              </li>
           </ul>
         </aside>
         <!-- / Menu -->
@@ -267,4 +272,17 @@
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
+  <script>
+    
+    // custom navbar admin page
+    var menuItem = document.querySelectorAll('.menu-inner>.menu-item');
+    for (let index = 0; index < menuItem.length; index++) {
+      	menuItem[index].onclick = function(){
+			for (let index = 0; index < menuItem.length; index++) {
+				menuItem[index].classList.remove('active')
+			}
+			this.classList.toggle('active')
+		}
+    }
+  </script>
 </html>

@@ -45,7 +45,8 @@
                     @csrf
                     <div class="first-name">
                         <label for="name">Họ và tên</label>
-                        <input required type="text" name="name" id="name" placeholder="Họ và tên" onkeyup="validateName(this)">
+                        <input required type="text" name="name" id="name" placeholder="Họ và tên">
+                        <small id="name-null" class="notify-error"></small>
                     </div>
                     <div class="login__user">
                         <label for="email">Địa chỉ Email</label>
@@ -54,12 +55,14 @@
                     <div class="login__pass">
                         <label for="pass">Mật khẩu</label>
                         <input required type="password" name="pass" id="pass" placeholder="Mật khẩu" onkeyup="validatePassword(this)">
+                        <small id="pass-null" class="notify-error"></small>
                     </div>
                     <div class="login__pass">
                         <label for="confirmPassword">Nhập lại mật khẩu</label>
-                        <input required type="password" name="confirmPassword" id="confirmPassword" placeholder="Nhập lại mật khẩu">
+                        <input required type="password" name="confirmPassword" id="confirmPassword" placeholder="Nhập lại mật khẩu" onblur="validateRetypePassword(this)">
+                        <small id="no-match-pass" class="notify-error"></small>
                     </div>
-                    <button class="btn-register js-disable" id="js-register-account" disabled>
+                    <button class="btn-register js-disable noHover" id="js-register-account">
                         <i class="fa-solid fa-user"></i>
                         Tạo tài khoản
                     </button>
@@ -81,24 +84,33 @@
             document.getElementById('form-register').style.display = 'none'
             document.getElementById('js_show_form_register').style.display = 'block'
         }
-        function validateName(textfield) {
-            var submitButton = document.getElementById("js-register-account");
-            if(textfield.value.length>0) {
-                submitButton.disabled = false;
-            }
-            else{
-                submitButton.disabled = true;
-            }
-        }
+        
+        
         function validatePassword(textfield) {
             var submitButton = document.getElementById("js-register-account");
             if(textfield.value.length>=6) {
-                console.log(document.getElementById('name').value);
-                submitButton.disabled = false;
+                // submitButton.disabled = false;
+                document.getElementById('pass-null').innerText = ""
             }
             else{
                 submitButton.disabled = true;
+                document.getElementById('pass-null').innerText = "Mật khẩu phải lớn hơn 6 kí tự"        
             }
         }
+        function validateRetypePassword(textfield) {
+            var submitButton = document.getElementById("js-register-account");
+            var password = document.getElementById('pass').value
+            if(textfield.value==password) {
+                submitButton.disabled = false;
+                document.getElementById('no-match-pass').innerText = ""
+                flagRepass = true
+            }
+            else{
+                submitButton.disabled = true;
+                document.getElementById('no-match-pass').innerText = "Mật khẩu không khớp"     
+                flagRepass = false       
+            }
+        }
+        
     </script>
 @stop

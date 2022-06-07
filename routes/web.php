@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\CategoryProduct;
 use App\Models\SubCategoryProduct;
+use App\Http\Middleware\AdminValid;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,12 +53,20 @@ Route::get('/dang-nhap','App\Http\Controllers\AccountController@login')->name('l
 Route::post('/xu-ly-dang-nhap','App\Http\Controllers\AccountController@handle_login')->name('handle_login');
 Route::post('/dang-ki','App\Http\Controllers\AccountController@register')->name('register');
 Route::get('/dang-xuat','App\Http\Controllers\AccountController@logout')->name('logout');
-Route::get('/profile','App\Http\Controllers\AccountController@profile')->name('profile');
+Route::get('/profile','App\Http\Controllers\AccountController@profile')->name('profile')->middleware('userValid');
 
 
 //Admin Interface
 Route::prefix('admin')->group(function(){
-    Route::get('/','App\Http\Controllers\DashboardController@home');
+    //login logout
+    Route::get('/login','App\Http\Controllers\AccountController@adminLogin')->name('adminLogin');
+    Route::post('/handle-login','App\Http\Controllers\AccountController@handleAdminLogin')->name('handle_login_admin');
+    Route::get('/logout','App\Http\Controllers\AccountController@logoutAdmin')->name('adminLogout');
+});
+Route::group(['prefix'=>'admin','middleware'=>['adminValid']],function(){
+    //dashboard
+    Route::get('/','App\Http\Controllers\DashboardController@home')->name('dashboard');
+
     //category product
     Route::get('/them-danh-muc-san-pham','App\Http\Controllers\CategoryProductController@add')->name('add_category_product');
     Route::post('/xu-ly-them-danh-muc-san-pham','App\Http\Controllers\CategoryProductController@handle_add')->name('handle_add_category_product');

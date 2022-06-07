@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Admin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Session;
@@ -46,5 +47,38 @@ class AccountController extends Controller
     {
         $order = Order::where('customer_id',Auth::user()->id)->orderBy('id','desc')->get();
         return view('user.account.profile',compact('order'));
+    }
+    
+    //Admin login
+    public function adminLogin()
+    {
+        return view('admin.login.login');
+    }
+    public function handleAdminLogin(Request $req)
+    {
+        $this->validate($req,[
+            'email'=>"required|email",
+            'password'=>"required",
+        ]);
+        $email = Admin::where('email',$req->email)->first();
+        // echo $email ; return ;
+        if($email){
+            $password = Admin::where('email',$req->email)->where('password',$req->password)->first();
+            if($password){
+                Session::put('admin','login admin success');
+            }
+            else{
+                Session::put('loginFalse','Thông tin nhập chưa đúng');
+            }
+        }
+        else{
+            Session::put('loginFalse','Thông tin nhập chưa đúng');
+        }
+        return redirect()->route('dashboard');
+    }
+    public function logoutAdmin()
+    {
+        Session::forget('admin');
+        return redirect()->route('adminLogin');
     }
 }
